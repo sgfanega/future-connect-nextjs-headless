@@ -57,6 +57,7 @@ export default function ContactForm() {
         <InputGroup className="mb-3">
           <InputGroup.Text id="firstName">First Name</InputGroup.Text>
           <Form.Control
+            id="firstName"
             type="text"
             placeholder="e.g John"
             aria-label="FirstName"
@@ -68,6 +69,7 @@ export default function ContactForm() {
         <InputGroup className="mb-3">
           <InputGroup.Text id="lastName">Last Name</InputGroup.Text>
           <Form.Control
+            id="lastName"
             type="text"
             placeholder="e.g Doe"
             aria-label="LastName"
@@ -79,6 +81,7 @@ export default function ContactForm() {
         <InputGroup className="mb-3">
           <InputGroup.Text id="email">Email</InputGroup.Text>
           <Form.Control
+            id="email"
             type="email"
             placeholder="e.g johndoe@email.com"
             aria-label="Email"
@@ -90,6 +93,7 @@ export default function ContactForm() {
         <InputGroup className="mb-3">
           <InputGroup.Text id="category">Choose a category</InputGroup.Text>
           <Form.Control
+            id="category"
             as="select"
             aria-label="Category" 
             aria-describedby="category"
