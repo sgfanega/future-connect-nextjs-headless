@@ -1,0 +1,46 @@
+@use '../colors';
+
+.home__what-we-do {
+  color: colors.$blue-500;
+  background: colors.$bg-secondary;
+  padding: 5rem 0;
+  h2 {
+    font-weight: bold;
+  }
+  hr {
+    width: 25%;
+    border: 0.20rem solid colors.$font-secondary; 
+    border-radius: 0.5rem;
+    opacity: 1;
+    margin: 0 auto;
+  }
+  .tagline {
+    margin-top: 3rem;
+    .fs-6 {
+      color: colors.$font-basic;
+      font-style: italic;
+    }
+  }
+
+  .number-counter {
+    text-align: center;
+    color: colors.$font-primary;
+    .counter {
+      font-weight: bold;
+      &::after {
+        content: "+";
+        color: colors.$font-secondary;
+        font-weight: normal;
+      }
+    }
+    .counter-plus {
+      color: colors.$font-secondary;
+    }
+    .counter-dollar {
+      font-weight: bold;
+      &::before {
+        content: "$";
+      }
+    }
+  }
+}

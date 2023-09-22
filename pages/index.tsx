@@ -1,45 +1,39 @@
-import Head from 'next/head'
-import { GetStaticProps } from 'next'
-import Container from '../components/container'
-import MoreStories from '../components/more-stories'
-import HeroPost from '../components/hero-post'
-import Intro from '../components/intro'
-import Layout from '../components/layout'
-import { getAllPostsForHome } from '../lib/api'
-import { CMS_NAME } from '../lib/constants'
+import { getFrontPageContent } from '../lib/api';
+import HeroBanner from '../components/home/hero-banner';
+import WhatWeDo from '../components/home/what-we-do';
+import Services from '../components/home/services';
+import ContactUs from '../components/contact-form';
+import { getMenuLinks } from '../lib/api';
+import Layout from '../components/layout';
+import { FrontPageContent, MenuLinks } from '../types/types';
 
-export default function Index({ allPosts: { edges }, preview }) {
-  const heroPost = edges[0]?.node
-  const morePosts = edges.slice(1)
-
+export default function Index({ 
+  menuLinks, 
+  frontPageContent, 
+  footerLinks 
+}) {
   return (
-    <Layout preview={preview}>
-      <Head>
-        <title>{`Next.js Blog Example with ${CMS_NAME}`}</title>
-      </Head>
-      <Container>
-        <Intro />
-        {heroPost && (
-          <HeroPost
-            title={heroPost.title}
-            coverImage={heroPost.featuredImage}
-            date={heroPost.date}
-            author={heroPost.author}
-            slug={heroPost.slug}
-            excerpt={heroPost.excerpt}
-          />
-        )}
-        {morePosts.length > 0 && <MoreStories posts={morePosts} />}
-      </Container>
+    <>
+    <Layout menuLinks={menuLinks} footerLinks={footerLinks}>
+      <HeroBanner title={frontPageContent.title} tagline={frontPageContent.tagline}/>
+      <WhatWeDo whatWeDoDescription={frontPageContent.whatWeDoDescription} 
+                missionStatement={frontPageContent.missionStatement}
+                collegeFund={frontPageContent.collegeFund}
+                collegesAndUniversities={frontPageContent.collegesAndUniversities}
+                countries={frontPageContent.countries}/>
+      <Services healthcareDescription={frontPageContent.healthcareDescription} intlAdmissionDescription={frontPageContent.intlAdmissionDescription}/>
+      <ContactUs/>
     </Layout>
+    </>
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ preview = false }) => {
-  const allPosts = await getAllPostsForHome(preview)
+export async function getStaticProps() {
+  const menuLinks = await getMenuLinks(true);
+  const footerLinks  = await getMenuLinks();
+  const frontPageContent = await getFrontPageContent();
 
   return {
-    props: { allPosts, preview },
-    revalidate: 10,
+    props: { menuLinks, frontPageContent, footerLinks }
   }
 }

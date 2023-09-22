@@ -1,3 +1,5 @@
+import { MenuLinkAttributes,FormattedMenuLinks, MenuLinkList, MenuLinks, RawMenuLinksFromGraphQL, RawMenuLinkAttributeFromGraphQL } from '../types/types';
+
 const API_URL = process.env.WORDPRESS_API_URL
 
 async function fetchAPI(query = '', { variables }: Record<string, any> = {}) {
@@ -20,10 +22,12 @@ async function fetchAPI(query = '', { variables }: Record<string, any> = {}) {
   })
 
   const json = await res.json()
+
   if (json.errors) {
     console.error(json.errors)
     throw new Error('Failed to fetch API')
   }
+
   return json.data
 }
 
@@ -209,4 +213,103 @@ export async function getPostAndMorePosts(slug, preview, previewData) {
   if (data.posts.edges.length > 2) data.posts.edges.pop()
 
   return data
+}
+
+export async function getMenuLinks(formatted : boolean = false) {
+  let data = await fetchAPI(`
+  query menuLinks {
+    menus {
+      nodes {
+        id
+        databaseId
+        name
+        menuItems {
+          edges {
+            node {
+              id
+              label
+              url
+              parentId
+            }
+          }
+        }
+      }
+    }
+  }
+  `);
+
+  if (data) {
+    data = data.menus.nodes[0].menuItems.edges;
+
+    const noBoilerplateData = removeExtraBoilerplateOnMenuLinks(data);
+
+    if (formatted) {
+      return formatMenuLinksWithChildren(noBoilerplateData);
+    }
+
+    return noBoilerplateData;
+  }
+}
+
+export async function getFrontPageContent() {
+  const data = await fetchAPI(`
+  query getFrontPageContent {
+    pages(where: {title: "Home"}) {
+      nodes {
+        home {
+          collegeFund
+          collegesAndUniversities
+          countries
+          healthcareDescription
+          intlAdmissionDescription
+          missionStatement
+          tagline
+          title
+          whatWeDoDescription
+        }
+      }
+    }
+  }
+  `)
+
+  if (data) {
+    return data.pages.nodes[0].home
+  }
+}
+
+function formatURL(url: string) {
+  return url.replace("https://dev-future-connect.pantheonsite.io/", "/");
+}
+
+function removeExtraBoilerplateOnMenuLinks(data : RawMenuLinksFromGraphQL) {
+  const formattedData = data?.map((link : RawMenuLinkAttributeFromGraphQL) => [{
+    id: link.node.id,
+    label: link.node.label,
+    url: formatURL(link.node.url),
+    parentId: link.node.parentId
+  }]);
+
+  return formattedData?.flat();
+}
+
+function formatMenuLinksWithChildren(data: FormattedMenuLinks) {
+  const items = {};
+  const result = [];
+
+  // Create a mapping of items by ID
+  data.forEach(item => {
+    item.children = [];
+    items[item.id] = item;
+  });
+
+  // Organize items into parent-child relationships
+  data.forEach(item => {
+    if (item.parentId !== null) {
+      items[item.parentId].children.push(item);
+    } else {
+      result.push(item);
+    }
+  });
+
+  return result;
 }

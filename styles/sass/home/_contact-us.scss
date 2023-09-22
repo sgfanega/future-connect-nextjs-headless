@@ -1,0 +1,16 @@
+@use '../colors';
+
+.home__contact-us {
+  background: colors.$bg-secondary;
+  h2 {
+    color: colors.$font-primary;
+    text-align: center;
+  }
+  hr {
+    width: 7%;
+    border: 0.20rem solid colors.$font-secondary; 
+    border-radius: 0.5rem;
+    opacity: 1;
+    margin: 0 auto;
+  }
+}

@@ -1,0 +1,27 @@
+@use '../colors';
+
+.home__services {
+  padding: 5rem 0;
+  color: colors.$font-tertiary;
+  h2 {
+    text-align: center;
+    color: colors.$font-secondary;
+  }
+  h3 {
+    color: colors.$font-secondary;
+    font-weight: bold;
+  }
+  hr {
+    width: 7%;
+    border: 0.20rem solid colors.$font-tertiary; 
+    border-radius: 0.5rem;
+    opacity: 1;
+    margin: 0 auto;
+  }
+  img {
+    border-radius: 0.5rem;
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+  }
+}

@@ -1,0 +1,14 @@
+$primary: #031B5B;
+$secondary: #e4b548;
+
+@import 'sass/navbar';
+@import 'sass/topbar';
+@import 'sass/footer.scss';
+
+@import 'sass/home/hero-banner';
+@import 'sass/home/what-we-do';
+@import 'sass/home/services';
+@import 'sass/home/contact-us';
+
+@import '../node_modules/bootstrap/scss/bootstrap';
+@import '../node_modules/bootstrap-icons/font/bootstrap-icons.scss'

@@ -1,0 +1,29 @@
+@use '../colors';
+
+.home__hero-banner {
+  min-height: 80vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  .hero-banner-image {
+    object-fit: cover;
+    filter: brightness(50%);
+    z-index: 0;
+  }
+  .hero-banner-text {
+    color: colors.$font-tertiary;
+    position: relative;
+    text-transform: uppercase;
+    z-index: 0;
+  }
+  .hero-banner-title {
+    color: colors.$yellow-500;
+    font-weight: bold;
+    position: relative;
+    text-transform: uppercase;
+    z-index: 0;
+  }
+}
